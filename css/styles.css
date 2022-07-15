@@ -7,11 +7,63 @@ body {
   font-family: sans-serif;
 }
 
-/* Ajoute tous les styles dont tu as besoin ici */
-/* 
-  codes couleurs :
-  - bleu des items de listes : #0052a9
-  - bleu des tags : #1771da
-  - gris des select: #eee
-  - gris des bordures: #bbb
-*/
+#app {
+  background-color: whitesmoke;
+  width: 75vw;
+  height: 80vh;
+  margin: 10vh auto;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* FORM */
+#app > form {
+  width: 100%;
+}
+#app > form > select {
+  width: calc(50% - 5px);
+  padding: 15px 20px;
+  background-color: lightgray;
+  border: 1px solid gray;
+}
+#app > form > select:first-child {
+  margin-right: 5px;
+}
+
+/* RESULT TITLE */
+#app > h2 {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 3rem;
+  text-align: left;
+  border-bottom: 1px solid gray;
+}
+
+/* LIST */
+#app > ul {
+  width: 100%;
+}
+#app > ul > li {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5px 20px;
+  margin: 2px 0;
+  border-radius: 5px;
+  background-color: darkblue;
+  color: aliceblue;
+}
+#app > ul > li > h3 {
+  margin-right: 15px;
+  font-size: 1.1rem;
+}
+#app > ul > li > p {
+  padding: 5px;
+  margin: 5px;
+  background-color: darkslateblue;
+border-radius: 3px;
+}
