@@ -90,6 +90,7 @@ const app = {
 
     // --- RESULT NUMBER --- //
     const resultTitle = document.createElement('h2');
+    resultTitle.id = 'title';
     resultTitle.textContent = `${app.profs.length} profs trouvés`;
 
     // --- RESULT LIST --- //
@@ -146,20 +147,18 @@ const app = {
   searchListSocle: function(e) {
     const valueSocle = e.target.value;
     const valueSpe = document.getElementById('spe').value;
-    const list = document.getElementsByTagName('ul');
-    console.log(`socle : ${valueSocle} - spe : ${valueSpe}`);
+    const resultTitle = document.getElementById('title');
     const profFiltered = app.profs.filter( prof => prof.language === valueSocle && prof.speciality === valueSpe);
-    console.log(profFiltered);
+    resultTitle.textContent = `${profFiltered.length} profs trouvés`;
     app.buildList(profFiltered);
   },
 
   searchListSpe: function(e) {
     const valueSpe = e.target.value;
     const valueSocle = document.getElementById('socle').value;
-    const list = document.getElementsByTagName('ul');
-    console.log(`socle : ${valueSocle} - spe : ${valueSpe}`);
+    const resultTitle = document.getElementById('title');
     const profFiltered = app.profs.filter( prof => prof.language === valueSocle && prof.speciality === valueSpe);
-    console.log(profFiltered);
+    resultTitle.textContent = `${profFiltered.length} profs trouvés`;
     app.buildList(profFiltered);
   },
 
