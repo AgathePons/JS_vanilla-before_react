@@ -57,6 +57,9 @@ body {
   background-color: darkblue;
   color: aliceblue;
 }
+#app > ul > li.hidden {
+  display: none;
+}
 #app > ul > li > h3 {
   margin-right: 15px;
   font-size: 1.1rem;
