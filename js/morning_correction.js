@@ -21,6 +21,16 @@ const app = {
         speciality: 'Data',
       },
       {
+        name: 'Ben',
+        language: 'JavaScript',
+        speciality: 'Symfony',
+      },
+      {
+        name: 'Jimmy',
+        language: 'PHP',
+        speciality: 'WordPress',
+      },
+      {
         name: 'Jean',
         language: 'JavaScript',
         speciality: 'Data',
@@ -64,7 +74,9 @@ const app = {
     // form
     const formElement = app.configureElement('form', app.containerElement, { className: 'search' });
     // languages select + options
-    const languageSelectElement = app.configureElement('select', formElement, { className: 'search-choices' });
+    const languageSelectElement = app.configureElement('select', formElement, { className: 'search-choices', id: 'languageSelect' });
+    languageSelectElement.addEventListener('change', app.handleLanguageChange);
+
     app.state.languages.forEach(language => {
       app.configureElement('option', languageSelectElement, {
         value: language,
@@ -73,7 +85,9 @@ const app = {
       });
     });
     // spe select + options
-    const speSelectElement = app.configureElement('select', formElement, { className: 'search-choices' });
+    const speSelectElement = app.configureElement('select', formElement, { className: 'search-choices', id: 'speSelect' });
+    speSelectElement.addEventListener('change', app.handleSpeChange);
+
     app.state.specialities.forEach(speciality => {
       app.configureElement('option', speSelectElement, {
         value: speciality,
@@ -86,7 +100,7 @@ const app = {
   // counter builder
   createCounter: function() {
     const numberOfTeachers = 2;
-    app.configureElement('h2', app.containerElement, {
+    app.counterElement = app.configureElement('h2', app.containerElement, {
       className: 'title',
       id: 'title',
       textContent: `${numberOfTeachers} profs trouvés`,
@@ -129,6 +143,46 @@ const app = {
     }
     parent.appendChild(element);
     return element;
+  },
+  // change language function
+  handleLanguageChange: function(event) {
+    const newSelectedLanguage = event.target.value;
+    const teacherElements = document.querySelectorAll('.list-item');
+    const selectedSpe = document.getElementById('speSelect').value;
+    let counter = 0;
+
+    teacherElements.forEach((liElement) => {
+      const teacherLanguage = liElement.querySelector('.list-tag--language').textContent;
+      const teacherSpe = liElement.querySelector('.list-tag--speciality').textContent;
+
+      if (teacherLanguage === newSelectedLanguage && teacherSpe === selectedSpe) {
+        liElement.classList.remove('hidden');
+        counter ++;
+      } else {
+        liElement.classList.add('hidden');
+      }
+    });
+    app.counterElement.textContent = `${counter} profs trouvés`
+  },
+  // change spe function
+  handleSpeChange: function(event) {
+    const newSelectedSpe = event.target.value;
+    const teacherElements = document.querySelectorAll('.list-item');
+    const selectedLanguage = document.getElementById('languageSelect').value;
+    let counter = 0;
+
+    teacherElements.forEach((liElement) => {
+      const teacherLanguage = liElement.querySelector('.list-tag--language').textContent;
+      const teacherSpe = liElement.querySelector('.list-tag--speciality').textContent;
+
+      if (teacherSpe === newSelectedSpe && teacherLanguage === selectedLanguage ) {
+        liElement.classList.remove('hidden');
+        counter ++;
+      } else {
+        liElement.classList.add('hidden');
+      }
+    });
+    app.counterElement.textContent = `${counter} profs trouvés`
   },
   // init
   init: function() {
