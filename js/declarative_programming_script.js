@@ -98,6 +98,17 @@ const app = {
     teacher.speciality === app.state.selectedSpe && teacher.language === app.state.selectedLanguage
   );
   },
+  getPrettyCounterString: function() {
+    const filteredTeachers = app.getFilteredTeachers();
+    const numberOfTeachers = filteredTeachers.length;
+    if (numberOfTeachers === 0) {
+      return 'Aucun prof trouvé';
+    } else if (numberOfTeachers === 1) {
+      return 'Un seul prof trouvé';
+    } else {
+      return `${numberOfTeachers} profs trouvés`;
+    }
+  },
   // main builder
   renderFinder: function() {
     app.containerElement = document.getElementById('app');
@@ -136,12 +147,10 @@ const app = {
   },
   // counter builder
   renderCounter: function() {
-    const filteredTeachers = app.getFilteredTeachers();
-    const numberOfTeachers = filteredTeachers.length;
     app.counterElement = app.configureElement('h2', app.containerElement, {
       className: 'title',
       id: 'title',
-      textContent: `${numberOfTeachers} profs trouvés`,
+      textContent: app.getPrettyCounterString(),
     });
   },
   // list builder
