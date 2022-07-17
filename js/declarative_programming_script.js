@@ -99,15 +99,15 @@ const app = {
   );
   },
   // main builder
-  drawFinder: function() {
+  renderFinder: function() {
     app.containerElement = document.getElementById('app');
     app.containerElement.innerHTML = '';
-    app.drawForm();
-    app.drawCounter();
-    app.drawList();
+    app.renderForm();
+    app.renderCounter();
+    app.renderList();
   },
   // form builder
-  drawForm: function() {
+  renderForm: function() {
     // form
     const formElement = app.configureElement('form', app.containerElement, { className: 'search' });
     // languages select + options
@@ -135,7 +135,7 @@ const app = {
     });
   },
   // counter builder
-  drawCounter: function() {
+  renderCounter: function() {
     const filteredTeachers = app.getFilteredTeachers();
     const numberOfTeachers = filteredTeachers.length;
     app.counterElement = app.configureElement('h2', app.containerElement, {
@@ -145,7 +145,7 @@ const app = {
     });
   },
   // list builder
-  drawList: function() {
+  renderList: function() {
     const ulElement = app.configureElement('ul', app.containerElement, {
       className: 'list',
     });
@@ -181,17 +181,17 @@ const app = {
   handleLanguageChange: function(event) {
     const newSelectedLanguage = event.target.value;
     app.state.selectedLanguage = newSelectedLanguage;
-    app.drawFinder();
+    app.renderFinder();
   },
   // change spe function
   handleSpeChange: function(event) {
     const newSelectedSpe = event.target.value;
     app.state.selectedSpe = newSelectedSpe;
-    app.drawFinder();
+    app.renderFinder();
   },
   // init
   init: function() {
-    app.drawFinder();
+    app.renderFinder();
   }
 };
 
