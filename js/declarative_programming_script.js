@@ -4,7 +4,7 @@ const app = {
     languages: ['PHP', 'JavaScript'],
     specialities: ['WordPress', 'Data', 'Symfony', 'React'],
     selectedLanguage: 'JavaScript',
-    selectedSpe: 'React',
+    selectedSpe: 'Data',
     teachers: [
       {
         name: 'Loris',
@@ -17,6 +17,26 @@ const app = {
         speciality: 'WordPress',
       },
       {
+        name: 'Nat\'',
+        language: 'PHP',
+        speciality: 'Symfony',
+      },
+      {
+        name: 'Chacha',
+        language: 'JavaScript',
+        speciality: 'Data',
+      },
+      {
+        name: 'Tom',
+        language: 'JavaScript',
+        speciality: 'Symfony',
+      },
+      {
+        name: 'Polo',
+        language: 'JavaScript',
+        speciality: 'Data',
+      },
+      {
         name: 'Jean-Michèle',
         language: 'PHP',
         speciality: 'Data',
@@ -25,6 +45,16 @@ const app = {
         name: 'Ben',
         language: 'JavaScript',
         speciality: 'Symfony',
+      },
+      {
+        name: 'JB',
+        language: 'JavaScript',
+        speciality: 'React',
+      },
+      {
+        name: 'Kamel',
+        language: 'PHP',
+        speciality: 'React',
       },
       {
         name: 'Jimmy',
@@ -63,15 +93,21 @@ const app = {
       },
     ],
   },
+  getFilteredTeachers: function() {
+    return app.state.teachers.filter((teacher) => 
+    teacher.speciality === app.state.selectedSpe && teacher.language === app.state.selectedLanguage
+  );
+  },
   // main builder
-  createFinder: function() {
+  drawFinder: function() {
     app.containerElement = document.getElementById('app');
-    app.createForm();
-    app.createCounter();
-    app.createList();
+    app.containerElement.innerHTML = '';
+    app.drawForm();
+    app.drawCounter();
+    app.drawList();
   },
   // form builder
-  createForm: function() {
+  drawForm: function() {
     // form
     const formElement = app.configureElement('form', app.containerElement, { className: 'search' });
     // languages select + options
@@ -82,7 +118,7 @@ const app = {
       app.configureElement('option', languageSelectElement, {
         value: language,
         textContent: language,
-        selected: language === 'JavaScript',
+        selected: language === app.state.selectedLanguage,
       });
     });
     // spe select + options
@@ -93,14 +129,15 @@ const app = {
       app.configureElement('option', speSelectElement, {
         value: speciality,
         textContent: speciality,
-        selected: speciality === 'React',
+        selected: speciality === app.state.selectedSpe,
 
       });
     });
   },
   // counter builder
-  createCounter: function() {
-    const numberOfTeachers = 2;
+  drawCounter: function() {
+    const filteredTeachers = app.getFilteredTeachers();
+    const numberOfTeachers = filteredTeachers.length;
     app.counterElement = app.configureElement('h2', app.containerElement, {
       className: 'title',
       id: 'title',
@@ -108,11 +145,12 @@ const app = {
     });
   },
   // list builder
-  createList: function() {
+  drawList: function() {
     const ulElement = app.configureElement('ul', app.containerElement, {
       className: 'list',
     });
-    app.state.teachers.forEach(({ name, language, speciality }) => {
+    const filteredTeachers = app.getFilteredTeachers();
+    filteredTeachers.forEach(({ name, language, speciality }) => {
       const liElement = app.configureElement('li', ulElement, {
         className: `list-item`,
       });
@@ -142,16 +180,18 @@ const app = {
   // change language function
   handleLanguageChange: function(event) {
     const newSelectedLanguage = event.target.value;
-    
+    app.state.selectedLanguage = newSelectedLanguage;
+    app.drawFinder();
   },
   // change spe function
   handleSpeChange: function(event) {
     const newSelectedSpe = event.target.value;
-    
+    app.state.selectedSpe = newSelectedSpe;
+    app.drawFinder();
   },
   // init
   init: function() {
-    app.createFinder();
+    app.drawFinder();
   }
 };
 

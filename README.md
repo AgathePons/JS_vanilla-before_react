@@ -1,4 +1,4 @@
-# JS vanilla, first in functionnal way, then the samme in declarative way
+# JS vanilla, first in functionnal way, then the same in declarative way
 
 Write little app in the old way, in JS vanilla, in functional programming first, then in declarative programming.
 

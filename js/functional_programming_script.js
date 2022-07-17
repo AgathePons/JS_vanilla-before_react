@@ -16,6 +16,26 @@ const app = {
         speciality: 'WordPress',
       },
       {
+        name: 'Nat\'',
+        language: 'PHP',
+        speciality: 'Symfony',
+      },
+      {
+        name: 'Chacha',
+        language: 'JavaScript',
+        speciality: 'Data',
+      },
+      {
+        name: 'Tom',
+        language: 'JavaScript',
+        speciality: 'Symfony',
+      },
+      {
+        name: 'Polo',
+        language: 'JavaScript',
+        speciality: 'Data',
+      },
+      {
         name: 'Jean-Michèle',
         language: 'PHP',
         speciality: 'Data',
@@ -24,6 +44,16 @@ const app = {
         name: 'Ben',
         language: 'JavaScript',
         speciality: 'Symfony',
+      },
+      {
+        name: 'JB',
+        language: 'JavaScript',
+        speciality: 'React',
+      },
+      {
+        name: 'Kamel',
+        language: 'PHP',
+        speciality: 'React',
       },
       {
         name: 'Jimmy',
