@@ -1,167 +1,193 @@
 // APP
 const app = {
-  profs: [
-    {
-      name: 'Loris',
-      language: 'PHP',
-      speciality: 'WordPress',
-    },
-    {
-      name: 'Noé',
-      language: 'JavaScript',
-      speciality: 'WordPress',
-    },
-    {
-      name: 'Jean-Michèle',
-      language: 'PHP',
-      speciality: 'Data',
-    },
-    {
-      name: 'Jean',
-      language: 'JavaScript',
-      speciality: 'Data',
-    },
-    {
-      name: 'Jean-Christophe',
-      language: 'PHP',
-      speciality: 'Symfony',
-    },
-    {
-      name: 'Jean-Philippe',
-      language: 'PHP',
-      speciality: 'Symfony',
-    },
-    {
-      name: 'Julien',
-      language: 'PHP',
-      speciality: 'React',
-    },
-    {
-      name: 'Vincent',
-      language: 'JavaScript',
-      speciality: 'React',
-    },
-    {
-      name: 'Tony',
-      language: 'JavaScript',
-      speciality: 'React',
-    },
-  ],
+  // state
+  state: {
+    languages: ['PHP', 'JavaScript'],
+    specialities: ['WordPress', 'Data', 'Symfony', 'React'],
+    teachers: [
+      {
+        name: 'Loris',
+        language: 'PHP',
+        speciality: 'WordPress',
+      },
+      {
+        name: 'Noé',
+        language: 'JavaScript',
+        speciality: 'WordPress',
+      },
+      {
+        name: 'Jean-Michèle',
+        language: 'PHP',
+        speciality: 'Data',
+      },
+      {
+        name: 'Ben',
+        language: 'JavaScript',
+        speciality: 'Symfony',
+      },
+      {
+        name: 'Jimmy',
+        language: 'PHP',
+        speciality: 'WordPress',
+      },
+      {
+        name: 'Jean',
+        language: 'JavaScript',
+        speciality: 'Data',
+      },
+      {
+        name: 'Jean-Christophe',
+        language: 'PHP',
+        speciality: 'Symfony',
+      },
+      {
+        name: 'Jean-Philippe',
+        language: 'PHP',
+        speciality: 'Symfony',
+      },
+      {
+        name: 'Julien',
+        language: 'PHP',
+        speciality: 'React',
+      },
+      {
+        name: 'Vincent',
+        language: 'JavaScript',
+        speciality: 'React',
+      },
+      {
+        name: 'Tony',
+        language: 'JavaScript',
+        speciality: 'React',
+      },
+    ],
+  },
+  // main builder
+  createFinder: function() {
+    app.containerElement = document.getElementById('app');
+    app.createForm();
+    app.createCounter();
+    app.createList();
+  },
+  // form builder
+  createForm: function() {
+    // form
+    const formElement = app.configureElement('form', app.containerElement, { className: 'search' });
+    // languages select + options
+    const languageSelectElement = app.configureElement('select', formElement, { className: 'search-choices', id: 'languageSelect' });
+    languageSelectElement.addEventListener('change', app.handleLanguageChange);
 
+    app.state.languages.forEach(language => {
+      app.configureElement('option', languageSelectElement, {
+        value: language,
+        textContent: language,
+        selected: language === 'JavaScript',
+      });
+    });
+    // spe select + options
+    const speSelectElement = app.configureElement('select', formElement, { className: 'search-choices', id: 'speSelect' });
+    speSelectElement.addEventListener('change', app.handleSpeChange);
+
+    app.state.specialities.forEach(speciality => {
+      app.configureElement('option', speSelectElement, {
+        value: speciality,
+        textContent: speciality,
+        selected: speciality === 'React',
+
+      });
+    });
+  },
+  // counter builder
+  createCounter: function() {
+    const numberOfTeachers = 2;
+    app.counterElement = app.configureElement('h2', app.containerElement, {
+      className: 'title',
+      id: 'title',
+      textContent: `${numberOfTeachers} profs trouvés`,
+    });
+  },
+  // list builder
+  createList: function() {
+    const ulElement = app.configureElement('ul', app.containerElement, {
+      className: 'list',
+    });
+    app.state.teachers.forEach(({ name, language, speciality }) => {
+      let extraClass;
+      if (language === 'JavaScript' && speciality === 'React') {
+        extraClass = '';
+      } else {
+        extraClass = 'hidden';
+      }
+      const liElement = app.configureElement('li', ulElement, {
+        className: `list-item ${extraClass}`,
+      });
+      app.configureElement('h3', liElement, {
+        textContent: name,
+      });
+      app.configureElement('p', liElement, {
+        textContent: language,
+        className: 'list-tag, list-tag--language',
+      });
+      app.configureElement('p', liElement, {
+        textContent: speciality,
+        className: 'list-tag, list-tag--speciality',
+
+      })
+    })
+  },
+  // Element builder
+  configureElement: function(tag, parent, attributes) {
+    const element = document.createElement(tag);
+    for (const key in attributes) {
+      element[key] = attributes[key];
+    }
+    parent.appendChild(element);
+    return element;
+  },
+  // change language function
+  handleLanguageChange: function(event) {
+    const newSelectedLanguage = event.target.value;
+    const teacherElements = document.querySelectorAll('.list-item');
+    const selectedSpe = document.getElementById('speSelect').value;
+    let counter = 0;
+
+    teacherElements.forEach((liElement) => {
+      const teacherLanguage = liElement.querySelector('.list-tag--language').textContent;
+      const teacherSpe = liElement.querySelector('.list-tag--speciality').textContent;
+
+      if (teacherLanguage === newSelectedLanguage && teacherSpe === selectedSpe) {
+        liElement.classList.remove('hidden');
+        counter ++;
+      } else {
+        liElement.classList.add('hidden');
+      }
+    });
+    app.counterElement.textContent = `${counter} profs trouvés`
+  },
+  // change spe function
+  handleSpeChange: function(event) {
+    const newSelectedSpe = event.target.value;
+    const teacherElements = document.querySelectorAll('.list-item');
+    const selectedLanguage = document.getElementById('languageSelect').value;
+    let counter = 0;
+
+    teacherElements.forEach((liElement) => {
+      const teacherLanguage = liElement.querySelector('.list-tag--language').textContent;
+      const teacherSpe = liElement.querySelector('.list-tag--speciality').textContent;
+
+      if (teacherSpe === newSelectedSpe && teacherLanguage === selectedLanguage ) {
+        liElement.classList.remove('hidden');
+        counter ++;
+      } else {
+        liElement.classList.add('hidden');
+      }
+    });
+    app.counterElement.textContent = `${counter} profs trouvés`
+  },
+  // init
   init: function() {
-
-    // --- FORM --- //
-    const form = document.createElement('form');
-    const selectSocle = document.createElement('select');
-    selectSocle.id = 'socle';
-    const selectSpe = document.createElement('select');
-    selectSpe.id = 'spe';
-    // options socle
-    const optionPhp = document.createElement('option');
-    optionPhp.value = 'PHP';
-    optionPhp.textContent = 'PHP';
-    const optionJs = document.createElement('option');
-    optionJs.value = 'JavaScript';
-    optionJs.textContent = 'JavaScript';
-    // options spé
-    const optionReact = document.createElement('option');
-    optionReact.value = 'React';
-    optionReact.textContent = 'React';
-    const optionData = document.createElement('option');
-    optionData.value = 'Data';
-    optionData.textContent = 'Data';
-    const optionSymfony = document.createElement('option');
-    optionSymfony.value = 'Symfony';
-    optionSymfony.textContent = 'Symfony';
-    const optionWP = document.createElement('option');
-    optionWP.value = 'WordPress';
-    optionWP.textContent = 'WordPress';
-
-    selectSocle.appendChild(optionJs);
-    selectSocle.appendChild(optionPhp);
-    
-    selectSpe.appendChild(optionReact);
-    selectSpe.appendChild(optionData);
-    selectSpe.appendChild(optionSymfony);
-    selectSpe.appendChild(optionWP);
-
-    form.appendChild(selectSocle);
-    form.appendChild(selectSpe);
-
-    // --- RESULT NUMBER --- //
-    const resultTitle = document.createElement('h2');
-    resultTitle.id = 'title';
-    resultTitle.textContent = `${app.profs.length} profs trouvés`;
-
-    // --- RESULT LIST --- //
-    const list = document.createElement('ul');
-    list.id = 'list';
-    for (const prof of app.profs) {
-      const listElement = document.createElement('li');
-      const profName = document.createElement('h3');
-      profName.textContent = prof.name;
-      const profSocle = document.createElement('p');
-      profSocle.textContent = prof.language;
-      const profSpe = document.createElement('p');
-      profSpe.textContent = prof.speciality;
-
-      listElement.appendChild(profName);
-      listElement.appendChild(profSocle);
-      listElement.appendChild(profSpe);
-
-      list.appendChild(listElement);
-    }
-
-    // --- BUILD IN APP --- //
-    const appDiv = document.getElementById('app');
-    appDiv.appendChild(form);
-    appDiv.appendChild(resultTitle);
-    appDiv.appendChild(list);
-    
-    // --- EVENT LISTENER --- /
-    selectSocle.addEventListener('change', app.searchListSocle);
-    selectSpe.addEventListener('change', app.searchListSpe);
-  },
-
-  // --- METHODS --- //
-  buildList: function(profArray) {
-    const list = document.getElementById('list');
-    list.innerHTML = '';
-    for (const prof of profArray) {
-      const listElement = document.createElement('li');
-      const profName = document.createElement('h3');
-      profName.textContent = prof.name;
-      const profSocle = document.createElement('p');
-      profSocle.textContent = prof.language;
-      const profSpe = document.createElement('p');
-      profSpe.textContent = prof.speciality;
-
-      listElement.appendChild(profName);
-      listElement.appendChild(profSocle);
-      listElement.appendChild(profSpe);
-
-      list.appendChild(listElement);
-    }
-  },
-
-  searchListSocle: function(e) {
-    const valueSocle = e.target.value;
-    const valueSpe = document.getElementById('spe').value;
-    const resultTitle = document.getElementById('title');
-    const profFiltered = app.profs.filter( prof => prof.language === valueSocle && prof.speciality === valueSpe);
-    resultTitle.textContent = `${profFiltered.length} profs trouvés`;
-    app.buildList(profFiltered);
-  },
-
-  searchListSpe: function(e) {
-    const valueSpe = e.target.value;
-    const valueSocle = document.getElementById('socle').value;
-    const resultTitle = document.getElementById('title');
-    const profFiltered = app.profs.filter( prof => prof.language === valueSocle && prof.speciality === valueSpe);
-    resultTitle.textContent = `${profFiltered.length} profs trouvés`;
-    app.buildList(profFiltered);
-  },
-
+    app.createFinder();
+  }
 };
 
 // on initialise l'app dès que le document est prêt
