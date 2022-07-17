@@ -1,4 +1,4 @@
-# Playing with DOM in JS vanilla before React
+# JS vanilla, first in functionnal way, then the samme in declarative way
 
 Write little app in the old way, in JS vanilla, in functional programming first, then in declarative programming.
 
